@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js" crossorigin="anonymous"></script>
+    <head>
+    <meta charset="UTF-8">
+    <title>Some Test</title>
+    </head>
+
+    <body>
+    <div id="changeme"></div>
+    </body>
+
+
+<script id="question-template" type="text/x-handlebars-template">
+    {{#each .}}
+    <div class="question">
+        <h1>{{text}}</h1>
+        <div class="answers">
+        {{#each answers}}
+            <input type="radio" name="{{questionid}}" value="{{id}}">{{text}}</br>
+        {{/each}}
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script>
+    var source = $("#question-template").html();
+    var template = Handlebars.compile(source);
+    
+    $.getJSON('http://localhost:8080/api/question', function  (data) {
+        var html = template(data);
+        $("#changeme").html(html)
+    });
+</script>
+</html>
